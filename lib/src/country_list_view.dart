@@ -200,9 +200,6 @@ class _CountryListViewState extends State<CountryListView> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          country.nameLocalized = CountryLocalizations.of(context)
-              ?.countryName(countryCode: country.countryCode)
-              ?.replaceAll(RegExp(r"\s+"), " ");
           widget.onSelect(country);
           Navigator.pop(context);
         },
@@ -268,15 +265,11 @@ class _CountryListViewState extends State<CountryListView> {
 
   void _filterSearchResults(String query) {
     List<Country> _searchResult = <Country>[];
-    final CountryLocalizations? localizations =
-        CountryLocalizations.of(context);
 
     if (query.isEmpty) {
       _searchResult.addAll(_countryList);
     } else {
-      _searchResult = _countryList
-          .where((c) => c.startsWith(query, localizations))
-          .toList();
+      _searchResult = _countryList.where((c) => c.startsWith(query)).toList();
     }
 
     setState(() => _filteredList = _searchResult);
